@@ -152,6 +152,8 @@ ZSH="${HOME}/.config/omzsh" sh -c "$(curl -fsSL https://raw.githubusercontent.co
 ZSH="${HOME}/.config/omzsh"
 ZSH_CUSTOM="${ZSH}/custom"
 
+echo "${ZSH}, ${ZSH_CUSTOM}"
+
 git clone https://github.com/zsh-users/zsh-autosuggestions.git $ZSH_CUSTOM/plugins/zsh-autosuggestions
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
 

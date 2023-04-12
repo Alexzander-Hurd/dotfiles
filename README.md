@@ -1,12 +1,3 @@
-# dotfiles
-
-Here's a bunch of settings for the [various tools I
-use](https://nickjanetakis.com/blog/the-tools-i-use). I also have a number of
-[blog posts and
-videos](https://nickjanetakis.com/blog/tag/dev-environment-tips-tricks-and-tutorials)
-related to my dev environment. There's also this documentation to help you get
-everything installed and configured.
-
 ### Documentation
 
 - [View screenshots](#screenshots) of the current set up and how to switch themes
@@ -18,23 +9,6 @@ everything installed and configured.
   - [How to use a different terminal in the set-theme script?](#how-to-use-a-different-terminal-in-the-set-theme-script)
   - [How to fix Vim taking a long time to open when inside of WSL?](#how-to-fix-vim-taking-a-long-time-to-open-when-inside-of-wsl)
 - [About the author](#about-the-author)
-
-## Screenshots
-
-Since my dotfiles are constantly evolving and I tend to reference them in
-videos, blog posts and various social media posts I thought it would be a good
-idea to include a screenshot of each theme I used and how to switch to it.
-
-I prefer using themes that have good contrast ratios and are clear to see in
-video recordings. These dotfiles currently support easily switching between
-[Gruvbox Community](https://github.com/gruvbox-community/gruvbox) and
-[One](https://github.com/rakr/vim-one) but you can use any theme you'd like.
-
-#### Theme progression
-
-- January 2021 (Gruvbox Community)
-- April 2020 (One)
-- December 2018 (Gruvbox Community)
 
 ### Themes
 
@@ -101,12 +75,12 @@ packages (more details are below).
 **You can download and run the install script with this 1 liner:**
 
 ```sh
-bash <(curl -sS https://raw.githubusercontent.com/nickjj/dotfiles/master/install)
+bash <(curl -sS https://raw.githubusercontent.com/Alexzander-Hurd/dotfiles/master/install)
 ```
 
 *If you're not comfortable blindly running a script on the internet, that's no
 problem. You can view the [install
-script](https://github.com/nickjj/dotfiles/blob/master/install) to see exactly
+script](https://github.com/Alexzander-Hurd/dotfiles/blob/master/install) to see exactly
 what it does. Each section is commented. Sudo is only used to install system
 packages. Alternatively you can look around this repo and reference the config
 files directly without using any script.*
@@ -114,16 +88,16 @@ files directly without using any script.*
 You can also run the script without installing system packages:
 
 ```sh
-bash <(curl -sS https://raw.githubusercontent.com/nickjj/dotfiles/master/install) --skip-system-packages
+bash <(curl -sS https://raw.githubusercontent.com/Alexzander-Hurd/dotfiles/master/install) --skip-system-packages
 ```
 
 That above could be useful if you're using a non-Debian based distro of Linux,
 in which case you'll need to install the [dependent system
-packages](https://github.com/nickjj/dotfiles/blob/master/install) on your own
+packages](https://github.com/Alexzander-Hurd/dotfiles/blob/master/install) on your own
 beforehand. Besides that, everything else is supported since it's only dealing
 with files in your home directory.
 
-My set up targets zsh 5.0+, tmux 3.0+ and Vim 8.1+. As long as you can meet
+My set up targets zsh 5.0+ and tmux 3.0+. As long as you can meet
 those requirements you're good to go.
 
 ### Did you install everything successfully?
@@ -160,26 +134,7 @@ Before you start customizing certain config files, take a look at the
 
 ### Extra WSL 1 and WSL 2 steps
 
-In addition to the Linux side of things, there's a few config files that I have
-in various directories of this dotfiles repo. These have long Windows paths.
-
-It would be expected that you copy those over to your system while replacing
-"Nick" with your Windows user name if you want to use those things, such as my
-Microsoft Terminal `settings.json` file and others. Some of the paths may
-also contain unique IDs too, so adjust them as needed on your end.
-
-Some of these configs expect that you have certain programs or tools installed
-on Windows. The [tools I use blog
-post](https://nickjanetakis.com/blog/the-tools-i-use) has a complete list of
-those tools so you can pick the ones you want to install.
-
-Pay very close attention to the `c/Users/Nick/.wslconfig` file because it has
-values in there that you will very likely want to change before using it.
-[This commit
-message](https://github.com/nickjj/dotfiles/commit/d0f1fc2622204b809cf7fcbb1a82d45b451064c4)
-goes into the details.
-
-Also, you should reboot to activate your `/etc/wsl.conf` file (the install
+You should reboot to activate your `/etc/wsl.conf` file (the install
 script created this). That will be necessary if you want to access your mounted
 drives at `/c` or `/d` instead of `/mnt/c` or `/mnt/d`.
 
@@ -210,7 +165,7 @@ that demonstrates performing the steps below.
 
 After installing these dotfiles you'll have a `~/.local/bin/set-theme` script.
 It's a [zero dependency Python 3
-script](https://github.com/nickjj/dotfiles/blob/master/.local/bin/set-theme).
+script](https://github.com/Alexzander-Hurd/dotfiles/blob/master/.local/bin/set-theme).
 
 1. Open the above file
 2. Check out the `THEMES` dictionary near the top of the file
@@ -242,31 +197,3 @@ You'll want to adjust the `set-theme` script by doing this:
 2. Change the `terminal` attributes in the `THEMES` dictionary to use your terminal's config option names
 3. Change the regex in the `change_terminal_theme` function based on your terminal's config option formatting rules
 4. Optionally install Gruvbox, One or any other themes (the MS Terminal config in this repo includes them)
-
-### How to fix Vim taking a long time to open when inside of WSL?
-
-It primarily comes down to either VcXsrv not running or a firewall tool
-blocking access to VcXsrv and it takes a bit of time for the connection to time
-out.
-
-You can verify this by starting Vim with `vim -X` instead of `vim`. This
-will prevent Vim from connecting to an X server. This also means clipboard
-sharing to your system clipboard won't work, but it's good for a test.
-
-Vim will try to connect to that X server by default because `DISPLAY` is
-exported in the `.zshrc` file. Installing and configuring VcXsrv as per these
-dotfiles will fix that issue.
-
-If it still persists, it might be a software firewall issue. You can open TCP
-port 6000 and also restrict access to it from only WSL 2. This will depend on
-which tool you're using to configure that but that should do the trick.
-
-## About the Author
-
-I'm a self taught developer and have been freelancing for the last ~20 years.
-You can read about everything I've learned along the way on my site at
-[https://nickjanetakis.com](https://nickjanetakis.com/). There's hundreds of
-[blog posts](https://nickjanetakis.com/blog/) and a couple of [video
-courses](https://nickjanetakis.com/courses/) on web development and deployment
-topics. I also have a [podcast](https://runninginproduction.com) where I talk
-to folks about running web apps in production.

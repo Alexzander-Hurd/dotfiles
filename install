@@ -7,7 +7,7 @@ skip_system_packages="${1}"
 os_type="$(uname -s)"
 
 apt_packages="curl git iproute2 python3-pip ripgrep tmux vim-gtk wl-clipboard zsh"
-apt_packages_optional="gnupg htop inotify-tools jq pass pwgen rsync shellcheck unzip"
+apt_packages_optional="gnupg htop inotify-tools jq pass pwgen rsync shellcheck unzip tree nmap"
 
 brew_packages="diffutils git python ripgrep tmux vim zsh"
 brew_packages_optional="gnupg htop jq pass pwgen rsync shellcheck"
@@ -95,9 +95,6 @@ If you choose no, the above packages will not be installed and this script
 will exit. This gives you a chance to edit the list of packages if you don't
 agree with any of the decisions.
 
-The packages listed after zsh are technically optional but are quite useful.
-Keep in mind if you don't install pwgen you won't be able to generate random
-passwords using a custom alias that's included in these dotfiles.
 
 EOF
     while true; do
@@ -117,6 +114,33 @@ EOF
     done
 else
     echo "System package installation was skipped!"
+fi
+
+if [ -z "${skip_system_packages}" ]; then
+cat << EOF
+These packages listed are technically optional but are quite useful.
+Keep in mind if you don't install pwgen you won't be able to generate random
+passwords using a custom alias that's included in these dotfiles.
+
+EOF
+
+    while true; do
+        read -rp "Do you want to install the above packages? (y/n) " yn
+        case "${yn}" in
+            [Yy]*)
+                if [ "${os_type}" == "Linux" ]; then
+                    apt_install_packages
+                else
+                    brew_install_packages
+                fi
+
+                break;;
+            [Nn]*) break;;
+            *) echo "Please answer y or n";;
+        esac
+    done
+else
+    echo "Optional package installation was skipped!"
 fi
 
 ###############################################################################

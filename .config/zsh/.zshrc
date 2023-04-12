@@ -2,7 +2,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="$HOME/.oh-my-zsh"
+export ZSH="$HOME/.config/omzsh"
 export PYTHONPATH=$PYTHONPATH:/usr/local/lib/python3.10/dist-packages
 
 # Set name of the theme to load --- if set to "random", it will

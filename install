@@ -5,6 +5,8 @@ set -e
 skip_system_packages="${1}"
 
 os_type="$(uname -s)"
+ZSH="${HOME}/.config/omzsh"
+ZSH_CUSTOM="${ZSH}/custom"
 
 apt_packages="curl git iproute2 python3-pip ripgrep tmux wl-clipboard zsh"
 apt_packages_optional="gnupg htop inotify-tools jq pass pwgen rsync shellcheck unzip tree nmap"
@@ -148,6 +150,7 @@ fi
 ###############################################################################
 
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+
 git clone https://github.com/zsh-users/zsh-autosuggestions.git $ZSH_CUSTOM/plugins/zsh-autosuggestions
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
 

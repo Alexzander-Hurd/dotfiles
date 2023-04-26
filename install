@@ -7,7 +7,7 @@ skip_system_packages="${1}"
 os_type="$(uname -s)"
 
 apt_packages="curl git iproute2 python3-pip ripgrep tmux wl-clipboard zsh"
-apt_packages_optional="gnupg htop inotify-tools jq pass pwgen rsync shellcheck unzip tree nmap net-tools gcc docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin"
+apt_packages_optional="gnupg htop inotify-tools jq pass pwgen rsync shellcheck unzip tree nmap net-tools gcc"
 
 brew_packages="diffutils git python ripgrep tmux zsh"
 brew_packages_optional="gnupg htop jq pass pwgen rsync shellcheck"
@@ -64,23 +64,7 @@ function apt_install_packages {
 
 function apt_install_opt_packages {
     # shellcheck disable=SC2086
-    sudo apt remove docker docker.io containerd runc
-
-    sudo install -m 0755 -d /etc/apt/keyrings
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-    sudo chmod a+r /etc/apt/keyrings/docker.gpg
-
-    echo \
-      "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-      "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
-      sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-
-
     sudo apt-get update && sudo apt-get install -y ${apt_packages_optional}
-
-    sudo usermod -aG docker $USER
-
-    newgrp docker
 }
 
 function brew_install_self {

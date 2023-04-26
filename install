@@ -64,15 +64,24 @@ function apt_install_packages {
 
 function apt_install_opt_packages {
     # shellcheck disable=SC2086
-    sudo apt-get remove docker docker-engine docker.io containerd runc
+    pkgToRemoveListFull="docker docker-engine docker.io containerd runc"
+    pkgToRemoveList=""
+    for pkgToRemove in $(echo $pkgToRemoveListFull); do
+    $(dpkg --status $pkgToRemove &> /dev/null)
+    if [[ $? -eq 0 ]]; then
+        pkgToRemoveList="$pkgToRemoveList $pkgToRemove"
+    fi
+    done
+    sudo apt-get --yes --purge remove $pkgToRemoveList
+    
     sudo install -m 0755 -d /etc/apt/keyrings
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
     sudo chmod a+r /etc/apt/keyrings/docker.gpg
 
     echo \
-    "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-    "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
-    sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+      "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+      "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
+      sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
 
     sudo apt-get update && sudo apt-get install -y ${apt_packages_optional}

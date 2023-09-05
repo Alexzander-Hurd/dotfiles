@@ -119,6 +119,18 @@ function ntfypub() {
                 -d "$data" \
                 ntfy.mechjelly.duckdns.org/mechAlerts
 }
+function ntfyUptime() {
+	while ! ping -c1 $1 &>/dev/null;
+	  	do sleep 1;
+	done;
+	ntfypub "Server Up" "The server $1 is responsive"
+}
+function ntfyDowntime() {
+        while ping -c1 $1 &>/dev/null;
+                do sleep 1;
+        done;
+        ntfypub "Server Down" "The server $1 is unresponsive"
+}
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

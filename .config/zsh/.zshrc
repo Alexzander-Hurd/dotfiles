@@ -112,6 +112,13 @@ function mkcd() {
 	mkdir "$1"
 	cd "$1"
 }
+function ntfypub() {
+        declare data=${2:-$(</dev/stdin)}
+        curl \
+                -H "Title:$1" \
+                -d "$data" \
+                ntfy.mechjelly.duckdns.org/mechAlerts
+}
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
